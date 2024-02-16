@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM mcr.microsoft.com/devcontainers/universal
 
 WORKDIR /home/
 
