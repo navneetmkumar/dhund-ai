@@ -1,6 +1,6 @@
 use ndarray::{s, Array, Dim};
 use ort::{inputs, CUDAExecutionProvider, CPUExecutionProvider, Session, SessionOutputs};
-use super::structures::{EmbeddingResult, ImageDocument};
+use super::structures::{EmbeddingFailure, EmbeddingResult, ImageDocument};
 use super::image_processor::ImageProcessor;
 use std::sync::Arc;
 use std::error::Error;
@@ -33,19 +33,25 @@ impl ImageEmbedder {
         })
     }
 
-    pub fn encode_image_batch(&self, image_documents: &[ImageDocument]) -> anyhow::Result<Vec<EmbeddingResult>, Box<dyn Error + Send + Sync>> {
-        let uri_vecs: anyhow::Result<Vec<ClipVector>> = image_documents
-            .iter()
-            .flat_map(|uri| {
-                ClipVector {
-                    id: uri.id,
-                    clip_vector: self.preprocesser.uri_to_clip_vector(uri.image_url, self.image_dimensions).unwrap()
+    pub fn encode_image_batch(&self, image_documents: &[ImageDocument]) -> anyhow::Result<(Vec<EmbeddingResult>, Vec<EmbeddingFailure>), Box<dyn Error + Send + Sync>> {
+        let mut embedding_failures = vec![];
+        let mut uri_vecs = vec![];
+
+        for image_doc in image_documents {
+            match self.preprocesser.uri_to_clip_vector(image_doc.image_url, self.image_dimensions) {
+                Ok(preprocessed) => {
+                    let clip_vector = ClipVector { id: image_doc.id, clip_vector: preprocessed};
+                    uri_vecs.push(clip_vector);
                 }
-            })
-            .collect();
+                Err(_err) => {
+                    let embedding_failure = EmbeddingFailure {id: image_doc.id, err: _err.to_string()};
+                    embedding_failures.push(embedding_failure);
+                }
+            }
+        }
 
         // expected format:  num_uris, 3, onnx_model.image_size, onnx_model.image_size
-        let md_vecs = uri_vecs?;
+        let md_vecs = uri_vecs;
         let mut a = Array::<f32, _>::zeros((
             md_vecs.len() as usize,
             3 as usize,
@@ -71,6 +77,6 @@ impl ImageEmbedder {
                 }
             )
         }
-        Ok(result)
+        Ok((result, embedding_failures))
     } 
 } 

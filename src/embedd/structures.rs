@@ -12,6 +12,12 @@ pub struct EmbeddingResult {
     pub embedding: Vec<f32>
 }
 
+#[derive(Debug, Deserialize, Clone)]
+pub struct EmbeddingFailure {
+    pub id: i64,
+    pub err: String
+}
+
 
 
 
