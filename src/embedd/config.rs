@@ -13,7 +13,7 @@ pub struct ModelImage {
 
 #[derive(Debug, Deserialize, Clone)]
 pub struct Config {
-    pub model: Model,
+    pub model: ModelImage,
 }
 
 impl Config {

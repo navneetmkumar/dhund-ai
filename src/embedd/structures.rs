@@ -1,7 +1,9 @@
+use serde::Deserialize;
+
 #[derive(Debug, Deserialize, Clone)]
-pub struct ImageDocument {
+pub struct ImageDocument<'a> {
     pub id: i64,
-    pub image_url: &str, 
+    pub image_url: &'a str, 
 }
 
 #[derive(Debug, Deserialize, Clone)]

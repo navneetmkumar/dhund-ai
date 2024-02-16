@@ -8,7 +8,7 @@ COPY . .
 RUN cargo chef prepare --recipe-path recipe.json
 
 
-FROM rust:latest as tester
+FROM rust:latest as api
 RUN apt update && apt-get clean && apt-get -y -f install openssl build-essential libc6 \
     libc-bin musl-tools libssl-dev libvips-dev pkg-config python3 \
     protobuf-compiler supervisor llvm-dev libclang-dev clang
