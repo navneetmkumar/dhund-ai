@@ -1,0 +1,7 @@
+[model.image]
+name = "patrickjohncyh/fashion-clip"
+cache_folder = "models/image"
+onnx_folder = "models/image/model.onnx"
+pretrained_model_folder = "models--patrickjohncyh--fashion-clip"
+image_width = 224
+image_height = 224

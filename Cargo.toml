@@ -1,0 +1,22 @@
+[package]
+name = "dhund"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+md5 = "0.7.0"
+anyhow = { version = "1.0", default-features = false }
+parking_lot = "0.12"
+polars = { version = "x", features = ["lazy", "csv"]}
+libvips = "1.7.0"
+image = "0.24.6"
+tracing = "0.1.37"
+ndarray = "0.15.1"
+bytes = "1.4.0"
+reqwest = { version = "0.11.16", features = ["blocking", "json", "stream"] }
+tokio = { version = "1.0", features = ["macros", "rt-multi-thread", "fs", "signal"] }
+ort = {version = "1.16.3", features = ["cuda", "load-dynamic", "download-binaries"]}
+serde = { version = "1.0", features = ["derive"] }
+num_cpus = "1.16.0"
