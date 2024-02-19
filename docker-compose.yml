@@ -7,7 +7,7 @@ services:
       - embedding-service
 
   embedding-service:
-    build: image-text-embedding-service/.
+    build: image-text-embedding-service/python.Dockerfile
 
   vespa:
-    image: vespaengine/vespa
+    build: vespa/vespa.Dockerfile
