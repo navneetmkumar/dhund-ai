@@ -4,15 +4,10 @@ services:
     build: .
     command: cargo test
     depends_on:
-      - qdrant
-    environment:
-      - QDRANT_URL=http://qdrant:6333
+      - embedding-service
 
+  embedding-service:
+    build: image-text-embedding-service/.
 
-  qdrant:
-    image: qdrant/qdrant:latest
-    restart: always
-    volumes:
-      - ./volumes/qdrant:/qdrant/storage
-    ports:
-      - "6333:6333"
+  vespa:
+    image: vespaengine/vespa
