@@ -1,4 +1,4 @@
-## Dhund
+## Dhund (WIP)
 
 
 Dhund is a semantic search engine (that internally uses vector embeddings) that is optimized for the multi-modal use case. 
