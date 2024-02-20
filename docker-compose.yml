@@ -6,7 +6,7 @@ services:
     depends_on:
       - embedding-service
 
-  embedding-service:
+  embedding-trainer:
     build: image-text-embedding-service/python.Dockerfile
 
   vespa:
